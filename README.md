@@ -32,7 +32,7 @@ This MCP server provides complete access to Open-Meteo APIs, including:
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/cmer81/open-meteo-mcp.git
 cd open-meteo-mcp
 
 # Install dependencies
