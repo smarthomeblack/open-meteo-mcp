@@ -41,7 +41,7 @@ export class OpenMeteoClient {
     this.ensembleClient = axios.create({ baseURL: ensembleURL, ...config });
   }
 
-  private buildParams(params: Record<string, any>): Record<string, string> {
+  private buildParams(params: Record<string, unknown>): Record<string, string> {
     const result: Record<string, string> = {};
     
     for (const [key, value] of Object.entries(params)) {
