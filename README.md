@@ -1,5 +1,8 @@
 # Open-Meteo MCP Server
 
+[![npm version](https://badge.fury.io/js/open-meteo-mcp-server.svg)](https://badge.fury.io/js/open-meteo-mcp-server)
+[![GitHub release](https://img.shields.io/github/release/cmer81/open-meteo-mcp.svg)](https://github.com/cmer81/open-meteo-mcp/releases)
+
 A comprehensive [Model Context Protocol (MCP)](https://modelcontextprotocol.io) server that provides access to Open-Meteo weather APIs for use with Large Language Models.
 
 ## Features
@@ -29,6 +32,14 @@ This MCP server provides complete access to Open-Meteo APIs, including:
 - **Ensemble Forecast** (`ensemble_forecast`) - Multiple model runs showing forecast uncertainty
 
 ## Installation
+
+### From npm (Recommended)
+
+```bash
+npm install -g open-meteo-mcp-server
+```
+
+### From source
 
 ```bash
 # Clone the repository
@@ -263,7 +274,40 @@ For detailed API documentation, refer to the `openapi.yml` file and the [Open-Me
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit issues or pull requests.
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+### Development Setup
+
+1. Fork the repository
+2. Clone your fork: `git clone https://github.com/your-username/open-meteo-mcp.git`
+3. Install dependencies: `npm install`
+4. Create a feature branch: `git checkout -b feature/amazing-feature`
+5. Make your changes and add tests
+6. Run tests: `npm test`
+7. Commit your changes: `git commit -m 'Add amazing feature'`
+8. Push to the branch: `git push origin feature/amazing-feature`
+9. Open a Pull Request
+
+### Releasing
+
+This project uses automated releases via GitHub Actions. To create a new release:
+
+```bash
+# For a patch release (1.0.0 -> 1.0.1)
+npm run release:patch
+
+# For a minor release (1.0.0 -> 1.1.0)
+npm run release:minor
+
+# For a major release (1.0.0 -> 2.0.0)
+npm run release:major
+```
+
+The GitHub Action will automatically:
+- Run tests and build the project
+- Publish to npm with provenance
+- Create a GitHub release
+- Update version badges
 
 ## License
 
