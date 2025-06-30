@@ -33,13 +33,17 @@ This MCP server provides complete access to Open-Meteo APIs, including:
 
 ## Installation
 
-### From npm (Recommended)
+### Method 1: Using npx (Recommended)
+
+No installation required! The server will run directly via npx.
+
+### Method 2: Global Installation via npm
 
 ```bash
 npm install -g open-meteo-mcp-server
 ```
 
-### From source
+### Method 3: From Source (Development)
 
 ```bash
 # Clone the repository
@@ -55,13 +59,47 @@ npm run build
 
 ## Configuration
 
-### Environment Variables
-
-- `OPEN_METEO_API_URL` (optional) - Base URL for Open-Meteo API (default: https://api.open-meteo.com)
-
 ### Claude Desktop Configuration
 
+#### Simple Configuration (Recommended)
+
 Add the following configuration to your Claude Desktop config file:
+
+```json
+{
+  "mcpServers": {
+    "open-meteo": {
+      "command": "npx",
+      "args": ["open-meteo-mcp-server"]
+    }
+  }
+}
+```
+
+#### Full Configuration (with environment variables)
+
+```json
+{
+  "mcpServers": {
+    "open-meteo": {
+      "command": "npx",
+      "args": ["open-meteo-mcp-server"],
+      "env": {
+        "OPEN_METEO_API_URL": "https://api.open-meteo.com",
+        "OPEN_METEO_AIR_QUALITY_API_URL": "https://air-quality-api.open-meteo.com",
+        "OPEN_METEO_MARINE_API_URL": "https://marine-api.open-meteo.com",
+        "OPEN_METEO_ARCHIVE_API_URL": "https://archive-api.open-meteo.com",
+        "OPEN_METEO_SEASONAL_API_URL": "https://seasonal-api.open-meteo.com",
+        "OPEN_METEO_ENSEMBLE_API_URL": "https://ensemble-api.open-meteo.com"
+      }
+    }
+  }
+}
+```
+
+#### Local Development Configuration
+
+If you're developing locally or installed from source:
 
 ```json
 {
@@ -90,8 +128,8 @@ If you're using your own Open-Meteo instance:
 {
   "mcpServers": {
     "open-meteo": {
-      "command": "node", 
-      "args": ["/path/to/open-meteo-mcp/dist/index.js"],
+      "command": "npx", 
+      "args": ["open-meteo-mcp-server"],
       "env": {
         "OPEN_METEO_API_URL": "https://your-meteo-api.example.com",
         "OPEN_METEO_AIR_QUALITY_API_URL": "https://air-quality-api.example.com",
@@ -104,6 +142,17 @@ If you're using your own Open-Meteo instance:
   }
 }
 ```
+
+### Environment Variables
+
+All environment variables are optional and have sensible defaults:
+
+- `OPEN_METEO_API_URL` - Base URL for Open-Meteo forecast API (default: https://api.open-meteo.com)
+- `OPEN_METEO_AIR_QUALITY_API_URL` - Air quality API URL (default: https://air-quality-api.open-meteo.com)
+- `OPEN_METEO_MARINE_API_URL` - Marine weather API URL (default: https://marine-api.open-meteo.com)
+- `OPEN_METEO_ARCHIVE_API_URL` - Historical data API URL (default: https://archive-api.open-meteo.com)
+- `OPEN_METEO_SEASONAL_API_URL` - Seasonal forecast API URL (default: https://seasonal-api.open-meteo.com)
+- `OPEN_METEO_ENSEMBLE_API_URL` - Ensemble forecast API URL (default: https://ensemble-api.open-meteo.com)
 
 ## Usage Examples
 
