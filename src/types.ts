@@ -11,6 +11,47 @@ export const WindSpeedUnitSchema = z.enum(['kmh', 'ms', 'mph', 'kn']).default('k
 export const PrecipitationUnitSchema = z.enum(['mm', 'inch']).default('mm');
 export const TimeFormatSchema = z.enum(['iso8601', 'unixtime']).default('iso8601');
 
+// Geocoding schemas
+export const GeocodingParamsSchema = z.object({
+  name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
+  count: z.number().min(1).max(100).default(10).optional(),
+  language: z.string().optional(),
+  countryCode: z.string().regex(/^[A-Z]{2}$/, 'Le code pays doit être au format ISO-3166-1 alpha2 (ex: FR, DE, US)').optional(),
+  format: z.enum(['json', 'protobuf']).default('json').optional(),
+});
+
+export const LocationSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  latitude: z.number().min(-90).max(90),
+  longitude: z.number().min(-180).max(180),
+  elevation: z.number().optional(),
+  feature_code: z.string().optional(),
+  country_code: z.string().regex(/^[A-Z]{2}$/).optional(),
+  admin1_id: z.number().optional(),
+  admin2_id: z.number().optional(),
+  admin3_id: z.number().optional(),
+  admin4_id: z.number().optional(),
+  timezone: z.string().optional(),
+  population: z.number().min(0).optional(),
+  postcodes: z.array(z.string()).optional(),
+  country_id: z.number().optional(),
+  country: z.string().optional(),
+  admin1: z.string().optional(),
+  admin2: z.string().optional(),
+  admin3: z.string().optional(),
+  admin4: z.string().optional(),
+});
+
+export const GeocodingResponseSchema = z.object({
+  results: z.array(LocationSchema),
+});
+
+export const GeocodingErrorSchema = z.object({
+  error: z.boolean(),
+  reason: z.string(),
+});
+
 // Weather variables schemas
 export const HourlyVariablesSchema = z.array(z.enum([
   // Temperature variables
@@ -157,3 +198,7 @@ export type MarineParams = z.infer<typeof MarineParamsSchema>;
 export type ElevationParams = z.infer<typeof ElevationParamsSchema>;
 export type WeatherResponse = z.infer<typeof WeatherResponseSchema>;
 export type ElevationResponse = z.infer<typeof ElevationResponseSchema>;
+export type GeocodingParams = z.infer<typeof GeocodingParamsSchema>;
+export type Location = z.infer<typeof LocationSchema>;
+export type GeocodingResponse = z.infer<typeof GeocodingResponseSchema>;
+export type GeocodingError = z.infer<typeof GeocodingErrorSchema>;

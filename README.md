@@ -15,6 +15,7 @@ This MCP server provides complete access to Open-Meteo APIs, including:
 - **Air Quality** (`air_quality`) - PM2.5, PM10, ozone, nitrogen dioxide and other pollutants
 - **Marine Weather** (`marine_weather`) - Wave height, wave period, wave direction and sea surface temperature
 - **Elevation** (`elevation`) - Digital elevation model data for given coordinates
+- **Geocoding** (`geocoding`) - Search locations worldwide by name or postal code, get coordinates and detailed location information
 
 ### Specialized Weather Models
 - **DWD ICON** (`dwd_icon_forecast`) - German weather service high-resolution model for Europe
@@ -90,7 +91,8 @@ Add the following configuration to your Claude Desktop config file:
         "OPEN_METEO_MARINE_API_URL": "https://marine-api.open-meteo.com",
         "OPEN_METEO_ARCHIVE_API_URL": "https://archive-api.open-meteo.com",
         "OPEN_METEO_SEASONAL_API_URL": "https://seasonal-api.open-meteo.com",
-        "OPEN_METEO_ENSEMBLE_API_URL": "https://ensemble-api.open-meteo.com"
+        "OPEN_METEO_ENSEMBLE_API_URL": "https://ensemble-api.open-meteo.com",
+        "OPEN_METEO_GEOCODING_API_URL": "https://geocoding-api.open-meteo.com"
       }
     }
   }
@@ -113,7 +115,8 @@ If you're developing locally or installed from source:
         "OPEN_METEO_MARINE_API_URL": "https://marine-api.open-meteo.com",
         "OPEN_METEO_ARCHIVE_API_URL": "https://archive-api.open-meteo.com",
         "OPEN_METEO_SEASONAL_API_URL": "https://seasonal-api.open-meteo.com",
-        "OPEN_METEO_ENSEMBLE_API_URL": "https://ensemble-api.open-meteo.com"
+        "OPEN_METEO_ENSEMBLE_API_URL": "https://ensemble-api.open-meteo.com",
+        "OPEN_METEO_GEOCODING_API_URL": "https://geocoding-api.open-meteo.com"
       }
     }
   }
@@ -136,7 +139,8 @@ If you're using your own Open-Meteo instance:
         "OPEN_METEO_MARINE_API_URL": "https://marine-api.example.com",
         "OPEN_METEO_ARCHIVE_API_URL": "https://archive-api.example.com",
         "OPEN_METEO_SEASONAL_API_URL": "https://seasonal-api.example.com",
-        "OPEN_METEO_ENSEMBLE_API_URL": "https://ensemble-api.example.com"
+        "OPEN_METEO_ENSEMBLE_API_URL": "https://ensemble-api.example.com",
+        "OPEN_METEO_GEOCODING_API_URL": "https://geocoding-api.example.com"
       }
     }
   }
@@ -153,8 +157,30 @@ All environment variables are optional and have sensible defaults:
 - `OPEN_METEO_ARCHIVE_API_URL` - Historical data API URL (default: https://archive-api.open-meteo.com)
 - `OPEN_METEO_SEASONAL_API_URL` - Seasonal forecast API URL (default: https://seasonal-api.open-meteo.com)
 - `OPEN_METEO_ENSEMBLE_API_URL` - Ensemble forecast API URL (default: https://ensemble-api.open-meteo.com)
+- `OPEN_METEO_GEOCODING_API_URL` - Geocoding API URL (default: https://geocoding-api.open-meteo.com)
 
 ## Usage Examples
+
+### Geocoding and Location Search
+```
+Find the coordinates for Paris, France
+```
+
+```
+Search for locations named "Berlin" and return the top 5 results
+```
+
+```
+What are the coordinates for postal code 75001?
+```
+
+```
+Search for "Lyon" in France only (countryCode: FR) with results in French (language: fr)
+```
+
+```
+Find all cities named "London" in the United Kingdom with English descriptions
+```
 
 ### Basic Weather Forecast
 ```

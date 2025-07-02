@@ -14,6 +14,7 @@ import {
   AirQualityParamsSchema,
   MarineParamsSchema,
   ElevationParamsSchema,
+  GeocodingParamsSchema,
 } from './types.js';
 
 class OpenMeteoMCPServer {
@@ -250,6 +251,19 @@ class OpenMeteoMCPServer {
           case 'ensemble_forecast': {
             const params = ForecastParamsSchema.parse(args); 
             const result = await this.client.getEnsemble(params);
+            return {
+              content: [
+                {
+                  type: 'text',
+                  text: JSON.stringify(result, null, 2),
+                },
+              ],
+            };
+          }
+
+          case 'geocoding': {
+            const params = GeocodingParamsSchema.parse(args);
+            const result = await this.client.getGeocoding(params);
             return {
               content: [
                 {
