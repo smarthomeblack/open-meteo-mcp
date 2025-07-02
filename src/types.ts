@@ -164,6 +164,24 @@ export const MarineParamsSchema = CoordinateSchema.extend({
   forecast_days: z.number().min(1).max(16).optional(),
 });
 
+// Flood variables
+export const FloodDailyVariablesSchema = z.array(z.enum([
+  'river_discharge', 'river_discharge_mean', 'river_discharge_median',
+  'river_discharge_max', 'river_discharge_min', 'river_discharge_p25', 'river_discharge_p75'
+])).optional();
+
+export const FloodParamsSchema = CoordinateSchema.extend({
+  daily: FloodDailyVariablesSchema,
+  timezone: z.string().optional(),
+  timeformat: TimeFormatSchema,
+  past_days: z.number().min(1).max(7).optional(),
+  forecast_days: z.number().min(1).max(210).optional(),
+  start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  end_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  ensemble: z.boolean().optional(),
+  cell_selection: z.enum(['land', 'sea', 'nearest']).default('nearest').optional(),
+});
+
 // Elevation parameters
 export const ElevationParamsSchema = CoordinateSchema;
 
@@ -195,6 +213,7 @@ export type ForecastParams = z.infer<typeof ForecastParamsSchema>;
 export type ArchiveParams = z.infer<typeof ArchiveParamsSchema>;
 export type AirQualityParams = z.infer<typeof AirQualityParamsSchema>;
 export type MarineParams = z.infer<typeof MarineParamsSchema>;
+export type FloodParams = z.infer<typeof FloodParamsSchema>;
 export type ElevationParams = z.infer<typeof ElevationParamsSchema>;
 export type WeatherResponse = z.infer<typeof WeatherResponseSchema>;
 export type ElevationResponse = z.infer<typeof ElevationResponseSchema>;
