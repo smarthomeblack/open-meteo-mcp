@@ -13,6 +13,7 @@ import {
   ArchiveParamsSchema,
   AirQualityParamsSchema,
   MarineParamsSchema,
+  FloodParamsSchema,
   ElevationParamsSchema,
   GeocodingParamsSchema,
 } from './types.js';
@@ -210,7 +211,7 @@ class OpenMeteoMCPServer {
           }
 
           case 'flood_forecast': {
-            const params = AirQualityParamsSchema.parse(args);
+            const params = FloodParamsSchema.parse(args);
             const result = await this.client.getFlood(params);
             return {
               content: [

@@ -4,6 +4,7 @@ import type {
   ArchiveParams, 
   AirQualityParams, 
   MarineParams, 
+  FloodParams,
   ElevationParams,
   GeocodingParams,
   WeatherResponse,
@@ -19,6 +20,7 @@ export class OpenMeteoClient {
   private seasonalClient: AxiosInstance;
   private ensembleClient: AxiosInstance;
   private geocodingClient: AxiosInstance;
+  private floodClient: AxiosInstance;
 
   constructor(baseURL: string = process.env.OPEN_METEO_API_URL || 'https://api.open-meteo.com') {
     const config = {
@@ -36,6 +38,7 @@ export class OpenMeteoClient {
     const seasonalURL = process.env.OPEN_METEO_SEASONAL_API_URL || 'https://seasonal-api.open-meteo.com';
     const ensembleURL = process.env.OPEN_METEO_ENSEMBLE_API_URL || 'https://ensemble-api.open-meteo.com';
     const geocodingURL = process.env.OPEN_METEO_GEOCODING_API_URL || 'https://geocoding-api.open-meteo.com';
+    const floodURL = process.env.OPEN_METEO_FLOOD_API_URL || 'https://flood-api.open-meteo.com';
 
     this.client = axios.create({ baseURL, ...config });
     this.airQualityClient = axios.create({ baseURL: airQualityURL, ...config });
@@ -44,6 +47,7 @@ export class OpenMeteoClient {
     this.seasonalClient = axios.create({ baseURL: seasonalURL, ...config });
     this.ensembleClient = axios.create({ baseURL: ensembleURL, ...config });
     this.geocodingClient = axios.create({ baseURL: geocodingURL, ...config });
+    this.floodClient = axios.create({ baseURL: floodURL, ...config });
   }
 
   private buildParams(params: Record<string, unknown>): Record<string, string> {
@@ -153,8 +157,8 @@ export class OpenMeteoClient {
     return response.data;
   }
 
-  async getFlood(params: AirQualityParams): Promise<WeatherResponse> {
-    const response = await this.client.get('/v1/flood', {
+  async getFlood(params: FloodParams): Promise<WeatherResponse> {
+    const response = await this.floodClient.get('/v1/flood', {
       params: this.buildParams(params)
     });
     return response.data;
