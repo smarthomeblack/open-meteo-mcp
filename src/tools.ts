@@ -641,6 +641,35 @@ export const ENSEMBLE_FORECAST_TOOL: Tool = {
   }
 };
 
+export const GEOCODING_TOOL: Tool = {
+  name: 'geocoding',
+  description: 'Rechercher des emplacements dans le monde entier par nom de lieu ou code postal. Retourne les coordonnées géographiques et informations détaillées.',
+  inputSchema: {
+    type: 'object',
+    properties: {
+      name: {
+        type: 'string',
+        minLength: 2,
+        description: 'Nom du lieu ou code postal à rechercher. Minimum 2 caractères requis. Exemples: "Paris", "Berlin", "75001", "10967"'
+      },
+      count: {
+        type: 'integer',
+        minimum: 1,
+        maximum: 100,
+        default: 10,
+        description: 'Nombre de résultats de recherche à retourner (maximum 100)'
+      },
+      format: {
+        type: 'string',
+        enum: ['json', 'protobuf'],
+        default: 'json',
+        description: 'Format de retour des résultats'
+      }
+    },
+    required: ['name']
+  }
+};
+
 export const ALL_TOOLS: Tool[] = [
   WEATHER_FORECAST_TOOL,
   WEATHER_ARCHIVE_TOOL,
@@ -651,5 +680,6 @@ export const ALL_TOOLS: Tool[] = [
   SEASONAL_FORECAST_TOOL,
   CLIMATE_PROJECTION_TOOL,
   ENSEMBLE_FORECAST_TOOL,
+  GEOCODING_TOOL,
   ...WEATHER_MODEL_TOOLS
 ];

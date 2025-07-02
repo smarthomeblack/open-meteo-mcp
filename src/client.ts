@@ -5,8 +5,10 @@ import type {
   AirQualityParams, 
   MarineParams, 
   ElevationParams,
+  GeocodingParams,
   WeatherResponse,
-  ElevationResponse 
+  ElevationResponse,
+  GeocodingResponse 
 } from './types.js';
 
 export class OpenMeteoClient {
@@ -16,6 +18,7 @@ export class OpenMeteoClient {
   private archiveClient: AxiosInstance;
   private seasonalClient: AxiosInstance;
   private ensembleClient: AxiosInstance;
+  private geocodingClient: AxiosInstance;
 
   constructor(baseURL: string = process.env.OPEN_METEO_API_URL || 'https://api.open-meteo.com') {
     const config = {
@@ -32,6 +35,7 @@ export class OpenMeteoClient {
     const archiveURL = process.env.OPEN_METEO_ARCHIVE_API_URL || 'https://archive-api.open-meteo.com';
     const seasonalURL = process.env.OPEN_METEO_SEASONAL_API_URL || 'https://seasonal-api.open-meteo.com';
     const ensembleURL = process.env.OPEN_METEO_ENSEMBLE_API_URL || 'https://ensemble-api.open-meteo.com';
+    const geocodingURL = process.env.OPEN_METEO_GEOCODING_API_URL || 'https://geocoding-api.open-meteo.com';
 
     this.client = axios.create({ baseURL, ...config });
     this.airQualityClient = axios.create({ baseURL: airQualityURL, ...config });
@@ -39,6 +43,7 @@ export class OpenMeteoClient {
     this.archiveClient = axios.create({ baseURL: archiveURL, ...config });
     this.seasonalClient = axios.create({ baseURL: seasonalURL, ...config });
     this.ensembleClient = axios.create({ baseURL: ensembleURL, ...config });
+    this.geocodingClient = axios.create({ baseURL: geocodingURL, ...config });
   }
 
   private buildParams(params: Record<string, unknown>): Record<string, string> {
@@ -164,6 +169,13 @@ export class OpenMeteoClient {
 
   async getClimate(params: ForecastParams): Promise<WeatherResponse> {
     const response = await this.client.get('/v1/climate', {
+      params: this.buildParams(params)
+    });
+    return response.data;
+  }
+
+  async getGeocoding(params: GeocodingParams): Promise<GeocodingResponse> {
+    const response = await this.geocodingClient.get('/v1/search', {
       params: this.buildParams(params)
     });
     return response.data;
