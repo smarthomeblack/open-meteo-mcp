@@ -15,6 +15,8 @@ export const TimeFormatSchema = z.enum(['iso8601', 'unixtime']).default('iso8601
 export const GeocodingParamsSchema = z.object({
   name: z.string().min(2, 'Le nom doit contenir au moins 2 caractères'),
   count: z.number().min(1).max(100).default(10).optional(),
+  language: z.string().optional(),
+  countryCode: z.string().regex(/^[A-Z]{2}$/, 'Le code pays doit être au format ISO-3166-1 alpha2 (ex: FR, DE, US)').optional(),
   format: z.enum(['json', 'protobuf']).default('json').optional(),
 });
 

@@ -174,6 +174,14 @@ Search for locations named "Berlin" and return the top 5 results
 What are the coordinates for postal code 75001?
 ```
 
+```
+Search for "Lyon" in France only (countryCode: FR) with results in French (language: fr)
+```
+
+```
+Find all cities named "London" in the United Kingdom with English descriptions
+```
+
 ### Basic Weather Forecast
 ```
 Can you get me the weather forecast for Paris (48.8566, 2.3522) with temperature, humidity, and precipitation for the next 3 days?
