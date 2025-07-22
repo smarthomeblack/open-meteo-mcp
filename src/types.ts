@@ -92,6 +92,10 @@ export const DailyVariablesSchema = z.array(z.enum([
   'shortwave_radiation_sum', 'uv_index_max', 'uv_index_clear_sky_max', 'et0_fao_evapotranspiration'
 ])).optional();
 
+export const SixHourlyVariablesSchema = z.array(z.enum([
+  'temperature_2m_mean', 'temperature_2m_anomaly', 'precipitation_sum', 'precipitation_anomaly'
+])).optional();
+
 export const WeatherModelsSchema = z.array(z.enum([
   'meteofrance_arome_france_hd', 'meteofrance_arome_france', 'meteofrance_arpege_europe',
   'icon_eu', 'icon_global', 'ecmwf_ifs025', 'gfs013'
@@ -107,7 +111,7 @@ export const ForecastParamsSchema = CoordinateSchema.extend({
   precipitation_unit: PrecipitationUnitSchema,
   timeformat: TimeFormatSchema,
   timezone: z.string().optional(),
-  past_days: z.union([z.literal(1), z.literal(2)]).optional(),
+  past_days: z.number().int().min(1).max(2).optional(),
   start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   end_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   start_hour: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/).optional(),
@@ -162,6 +166,21 @@ export const MarineParamsSchema = CoordinateSchema.extend({
   timeformat: TimeFormatSchema,
   past_days: z.number().min(1).max(7).optional(),
   forecast_days: z.number().min(1).max(16).optional(),
+});
+
+// Seasonal forecast schema
+export const SeasonalForecastParamsSchema = CoordinateSchema.extend({
+  six_hourly: SixHourlyVariablesSchema,
+  forecast_days: z.number().refine((val: number) => [45, 92, 183, 274].includes(val), {
+    message: "forecast_days must be one of 45, 92, 183, 274"
+  }).optional(),
+  past_days: z.number().int().min(0).max(2).optional(),
+  temperature_unit: TemperatureUnitSchema,
+  precipitation_unit: PrecipitationUnitSchema,
+  timeformat: TimeFormatSchema,
+  timezone: z.string().optional(),
+  start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+  end_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
 });
 
 // Flood variables
@@ -221,3 +240,4 @@ export type GeocodingParams = z.infer<typeof GeocodingParamsSchema>;
 export type Location = z.infer<typeof LocationSchema>;
 export type GeocodingResponse = z.infer<typeof GeocodingResponseSchema>;
 export type GeocodingError = z.infer<typeof GeocodingErrorSchema>;
+export type SeasonalForecastParams = z.infer<typeof SeasonalForecastParamsSchema>;

@@ -6,7 +6,8 @@ import {
   MarineParamsSchema, 
   ElevationParamsSchema,
   GeocodingParamsSchema,
-  LocationSchema 
+  LocationSchema,
+  SeasonalForecastParamsSchema
 } from './types.js';
 import { ALL_TOOLS } from './tools.js';
 import { OpenMeteoClient } from './client.js';
@@ -21,6 +22,7 @@ describe('Module imports', () => {
     expect(ElevationParamsSchema).toBeDefined();
     expect(GeocodingParamsSchema).toBeDefined();
     expect(LocationSchema).toBeDefined();
+    expect(SeasonalForecastParamsSchema).toBeDefined();
   });
 
   it('should validate coordinates schema', () => {
@@ -71,6 +73,24 @@ describe('Module imports', () => {
     };
     
     expect(() => GeocodingParamsSchema.parse(invalidCountryCode)).toThrow('Le code pays doit être au format ISO-3166-1 alpha2');
+  });
+
+  it('should validate seasonal forecast parameters', () => {
+    const validParams = {
+      latitude: 48.8566,
+      longitude: 2.3522,
+      forecast_days: 92
+    };
+
+    expect(() => SeasonalForecastParamsSchema.parse(validParams)).not.toThrow();
+
+    const invalidParams = {
+      latitude: 48.8566,
+      longitude: 2.3522,
+      forecast_days: 100 // Invalid value
+    };
+
+    expect(() => SeasonalForecastParamsSchema.parse(invalidParams)).toThrow();
   });
 
   it('should import tools successfully', () => {

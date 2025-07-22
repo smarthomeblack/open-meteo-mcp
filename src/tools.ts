@@ -71,8 +71,9 @@ export const WEATHER_FORECAST_TOOL: Tool = {
       },
       past_days: {
         type: 'integer',
-        enum: [1, 2],
-        description: 'Include past days data'
+        minimum: 1,
+        maximum: 2,
+        description: 'Include past days data (allowed values: 1 or 2).'
       },
       forecast_days: {
         type: 'integer',
@@ -425,9 +426,8 @@ export const SEASONAL_FORECAST_TOOL: Tool = {
       },
       forecast_days: {
         type: 'integer',
-        enum: [45, 92, 183, 274],
         default: 92,
-        description: 'Number of forecast days: 45 days, 3 months (default), 6 months, or 9 months'
+        description: 'Number of forecast days. Must be one of: 45, 92, 183, 274. Corresponds to 1.5, 3, 6, or 9 months.'
       },
       past_days: {
         type: 'integer',

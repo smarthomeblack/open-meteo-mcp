@@ -16,6 +16,7 @@ import {
   FloodParamsSchema,
   ElevationParamsSchema,
   GeocodingParamsSchema,
+  SeasonalForecastParamsSchema,
 } from './types.js';
 
 class OpenMeteoMCPServer {
@@ -224,7 +225,7 @@ class OpenMeteoMCPServer {
           }
 
           case 'seasonal_forecast': {
-            const params = ForecastParamsSchema.parse(args);
+            const params = SeasonalForecastParamsSchema.parse(args);
             const result = await this.client.getSeasonal(params);
             return {
               content: [

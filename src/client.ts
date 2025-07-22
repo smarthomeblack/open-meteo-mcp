@@ -9,7 +9,8 @@ import type {
   GeocodingParams,
   WeatherResponse,
   ElevationResponse,
-  GeocodingResponse 
+  GeocodingResponse,
+  SeasonalForecastParams
 } from './types.js';
 
 export class OpenMeteoClient {
@@ -164,7 +165,7 @@ export class OpenMeteoClient {
     return response.data;
   }
 
-  async getSeasonal(params: ForecastParams): Promise<WeatherResponse> {
+  async getSeasonal(params: SeasonalForecastParams): Promise<WeatherResponse> {
     const response = await this.seasonalClient.get('/v1/seasonal', {
       params: this.buildParams(params)
     });
