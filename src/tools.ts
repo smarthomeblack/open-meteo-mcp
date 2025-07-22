@@ -65,10 +65,8 @@ export const WEATHER_FORECAST_TOOL: Tool = {
         default: 'mm',
         description: 'Precipitation unit'
       },
-      timezone: {
-        type: 'string',
-        description: 'Timezone for timestamps (e.g., Europe/Paris, America/New_York)'
-      },
+      timeformat: { type: 'string', enum: ['iso8601', 'unixtime'], description: 'Time format' },
+      timezone: { type: 'string', description: 'Timezone' },
       past_days: {
         type: 'integer',
         minimum: 1,
@@ -361,9 +359,7 @@ export const FLOOD_FORECAST_TOOL: Tool = {
       },
       past_days: {
         type: 'integer',
-        minimum: 1,
-        maximum: 7,
-        description: 'Include past days data'
+        description: 'Include past days data. Supported values are 1, 2, 3, 5, 7.'
       },
       forecast_days: {
         type: 'integer',
