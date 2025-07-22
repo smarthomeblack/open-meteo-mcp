@@ -186,15 +186,18 @@ export const SeasonalForecastParamsSchema = CoordinateSchema.extend({
 // Flood variables
 export const FloodDailyVariablesSchema = z.array(z.enum([
   'river_discharge', 'river_discharge_mean', 'river_discharge_median',
-  'river_discharge_max', 'river_discharge_min', 'river_discharge_p25', 'river_discharge_p75'
+  'river_discharge_max', 'river_discharge_min', 'river_discharge_p25',
+  'river_discharge_p75'
 ])).optional();
 
 export const FloodParamsSchema = CoordinateSchema.extend({
-  daily: FloodDailyVariablesSchema,
-  timezone: z.string().optional(),
-  timeformat: TimeFormatSchema,
-  past_days: z.number().min(1).max(7).optional(),
+  hourly: FloodDailyVariablesSchema,
+  past_days: z.number().refine((val: number) => [1, 2, 3, 5, 7].includes(val), {
+    message: "past_days must be one of 1, 2, 3, 5, 7"
+  }).optional(),
   forecast_days: z.number().min(1).max(210).optional(),
+  timeformat: TimeFormatSchema,
+  timezone: z.string().optional(),
   start_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   end_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
   ensemble: z.boolean().optional(),
